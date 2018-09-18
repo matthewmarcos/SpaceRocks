@@ -3,6 +3,8 @@ package com.matthewmarcos.spacerocks;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
+import java.util.ArrayList;
+
 public class LevelScreen extends BaseScreen {
     private SpaceShip spaceship;
     private boolean gameOver;
@@ -65,6 +67,7 @@ public class LevelScreen extends BaseScreen {
     }
 
     public void generateRocks() {
+        ArrayList<BaseActor> rocks = BaseActor.getList(mainStage, "Rock");
 
     }
 
@@ -76,11 +79,11 @@ public class LevelScreen extends BaseScreen {
         spaceship.remove();
         spaceship.setPosition(-1000, -1000);
 
-        BaseActor gameOver = new BaseActor(0, 0, uiStage);
-        gameOver.centerAtPosition(200, 300);
-        gameOver.setOpacity(0);
-        gameOver.addAction(Actions.fadeIn(1));
-        gameOver.loadTexture("message-lose.png");
+        BaseActor gameOverMessage = new BaseActor(0, 0, uiStage);
+        gameOverMessage.centerAtPosition(200, 300);
+        gameOverMessage.setOpacity(0);
+        gameOverMessage.addAction(Actions.fadeIn(1));
+        gameOverMessage.loadTexture("message-lose.png");
     }
 
     public boolean keyDown(int keycode) {
