@@ -1,6 +1,7 @@
 package com.matthewmarcos.spacerocks;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -47,11 +48,19 @@ public abstract class BaseScreen implements Screen, InputProcessor {
     }
 
     public void show() {
+        InputMultiplexer im = (InputMultiplexer)Gdx.input.getInputProcessor();
+        im.addProcessor(this);
+        im.addProcessor(uiStage);
+        im.addProcessor(mainStage);
     }
 
     public void hide() {
+        InputMultiplexer im = (InputMultiplexer)Gdx.input.getInputProcessor();
+        im.removeProcessor(this);
+        im.removeProcessor(uiStage);
+        im.removeProcessor(mainStage);
     }
-    
+
     // Required by InputProcessor Interface
     public boolean keyDown(int keycode) {
         return false;
