@@ -1,4 +1,4 @@
-package com.matthewmarcos.starfishcollector;
+package com.matthewmarcos.spacerocks;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -88,7 +88,7 @@ public class BaseActor extends Actor {
     public void setBoundaryRectangle() {
         float w = getWidth();
         float h = getHeight();
-        float[] vertices = {0,0,w,0,w,h,0,h};
+        float[] vertices = {0, 0, w, 0, w, h, 0, h};
 
         boundaryPolygon = new Polygon(vertices);
     }
@@ -101,9 +101,9 @@ public class BaseActor extends Actor {
         float h = tr.getRegionHeight();
         setSize(w, h);
         // Origin: Where the image rotates
-        setOrigin(w/2, h/2);
+        setOrigin(w / 2, h / 2);
 
-        if(boundaryPolygon == null) {
+        if (boundaryPolygon == null) {
             setBoundaryRectangle();
         }
     }
@@ -113,13 +113,13 @@ public class BaseActor extends Actor {
         float h = getHeight();
         float[] vertices = new float[2 * numSides];
 
-        for(int i = 0 ; i < numSides ; i++) {
+        for (int i = 0; i < numSides; i++) {
             // 6.28 = 2 radians. We'll calculate the coordinates of the points every `numSide` of the ellipse
             float angle = (6.28f / numSides) * i;
             // x-coordinate
-            vertices[2*i] = w/2 * MathUtils.cos(angle) + w/2;
+            vertices[2 * i] = w / 2 * MathUtils.cos(angle) + w / 2;
             // y-coordinate
-            vertices[2*i+1] = h/2 * MathUtils.sin(angle) + h/2;
+            vertices[2 * i + 1] = h / 2 * MathUtils.sin(angle) + h / 2;
         }
 
         boundaryPolygon = new Polygon(vertices);
@@ -135,7 +135,7 @@ public class BaseActor extends Actor {
             Polygon collision requires a lot of computing power so we can just check if the
             boundary rectangles overlap first. If they don't, we do not need to compute any further
          */
-        if(!r1.overlaps(r2)) {
+        if (!r1.overlaps(r2)) {
             return false;
         }
 
@@ -144,11 +144,11 @@ public class BaseActor extends Actor {
     }
 
     public void centerAtPosition(float x, float y) {
-        setPosition(x - getWidth()/2 , y - getHeight()/2);
+        setPosition(x - getWidth() / 2, y - getHeight() / 2);
     }
 
     public void centerAtActor(BaseActor other) {
-        centerAtPosition(other.getX() + other.getWidth()/2 , other.getY() + other.getHeight()/2);
+        centerAtPosition(other.getX() + other.getWidth() / 2, other.getY() + other.getHeight() / 2);
     }
 
     public void setOpacity(float opacity) {
@@ -165,12 +165,12 @@ public class BaseActor extends Actor {
     }
 
     public void setAnimationPaused(boolean pause) {
-    animationPaused = pause;
+        animationPaused = pause;
     }
 
     public void act(float dt) {
         super.act(dt);
-        if(!animationPaused) {
+        if (!animationPaused) {
             elapsedTime += dt;
         }
     }
@@ -181,7 +181,7 @@ public class BaseActor extends Actor {
         Color c = getColor();
         batch.setColor(c.r, c.g, c.b, c.a);
 
-        if(animation != null && isVisible()) {
+        if (animation != null && isVisible()) {
             batch.draw(animation.getKeyFrame(elapsedTime),
                     getX(), getY(), getOriginX(), getOriginY(),
                     getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
@@ -196,7 +196,7 @@ public class BaseActor extends Actor {
         int fileCount = fileNames.length;
         Array<TextureRegion> textureArray = new Array<TextureRegion>();
 
-        for(int n = 0 ; n < fileCount ; n++) {
+        for (int n = 0; n < fileCount; n++) {
             String fileName = fileNames[n];
             Texture texture = new Texture(Gdx.files.internal(fileName));
             texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -205,14 +205,13 @@ public class BaseActor extends Actor {
 
         Animation<TextureRegion> anim = new Animation<TextureRegion>(frameDuration, textureArray);
 
-        if(loop) {
+        if (loop) {
             anim.setPlayMode(PlayMode.LOOP);
-        }
-        else {
+        } else {
             anim.setPlayMode(PlayMode.NORMAL);
         }
 
-        if(animation == null) {
+        if (animation == null) {
             setAnimation(anim);
         }
 
@@ -234,16 +233,15 @@ public class BaseActor extends Actor {
 
         Array<TextureRegion> textureArray = new Array<TextureRegion>();
 
-        for(int r = 0 ; r < rows ; r++)
-            for(int c = 0 ; c < cols ; c++) {
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++) {
                 textureArray.add(temp[r][c]);
             }
 
         Animation<TextureRegion> anim = new Animation<TextureRegion>(frameDuration, textureArray);
-        if(loop) {
+        if (loop) {
             anim.setPlayMode(PlayMode.LOOP);
-        }
-        else {
+        } else {
             anim.setPlayMode(PlayMode.NORMAL);
         }
 
@@ -269,10 +267,9 @@ public class BaseActor extends Actor {
     }
 
     public void setSpeed(float speed) {
-        if(velocityVec.len() == 0) {
+        if (velocityVec.len() == 0) {
             velocityVec.set(speed, 0);
-        }
-        else {
+        } else {
             velocityVec.setLength(speed);
         }
     }
@@ -324,7 +321,7 @@ public class BaseActor extends Actor {
         float speed = getSpeed();
 
         // decrease speed when not accelerating
-        if(getAcceleration() == 0) {
+        if (getAcceleration() == 0) {
             speed -= deceleration * dt;
         }
 
@@ -352,14 +349,14 @@ public class BaseActor extends Actor {
             Polygon collision requires a lot of computing power so we can just check if the
             boundary rectangles overlap first. If they don't, we do not need to compute any further
          */
-        if(!r1.overlaps(r2)) {
+        if (!r1.overlaps(r2)) {
             return null;
         }
 
         Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
         boolean polygonOverlap = Intersector.overlapConvexPolygons(p1, p2, mtv);
 
-        if(!polygonOverlap) {
+        if (!polygonOverlap) {
             return null;
         }
 
@@ -374,10 +371,10 @@ public class BaseActor extends Actor {
     public static ArrayList<BaseActor> getList(Stage s, String className) {
         ArrayList<BaseActor> list = new ArrayList<BaseActor>();
 
-        for(Actor a: s.getActors()) {
+        for (Actor a : s.getActors()) {
             // Get only the actors that are an instance of className
-            BaseActor actor = (BaseActor)a;
-            if(actor.getMyClass() == className) {
+            BaseActor actor = (BaseActor) a;
+            if (actor.getMyClass() == className) {
                 list.add(actor);
             }
         }
@@ -398,9 +395,9 @@ public class BaseActor extends Actor {
 
         // bound camera to layout
         cam.position.x = MathUtils.clamp(cam.position.x,
-                cam.viewportWidth/2, worldBounds.width - cam.viewportWidth/2);
+                cam.viewportWidth / 2, worldBounds.width - cam.viewportWidth / 2);
         cam.position.y = MathUtils.clamp(cam.position.y,
-                cam.viewportHeight/2, worldBounds.height - cam.viewportHeight/2);
+                cam.viewportHeight / 2, worldBounds.height - cam.viewportHeight / 2);
         cam.update();
     }
 }
